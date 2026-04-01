@@ -165,3 +165,42 @@
 ### 关联信息
 - 默认分支：`main`
 - 本地远端目录：`E:\pycharm\Python3_9\DeepLearning\.local-remote.git`
+
+## 2026-04-01 22:08 (Asia/Shanghai) - 推送项目到 GitHub 远端仓库
+
+### 变更摘要
+在保留本地 bare 仓库远端的基础上，新增 GitHub 远端仓库并将当前 `main` 分支推送到 `https://github.com/moyan726/Oryza-Sentinel.git`。
+
+### 问题说明
+- 当前 Git 仓库仅推送到了项目内的本地 bare 仓库，尚未同步到 GitHub。
+- 用户已创建 GitHub 仓库，需要把本地代码同步到公开远端，便于后续备份、展示和继续开发。
+
+### 策略方向
+- 保留现有本地远端 `origin` 不变，避免影响当前本地备份链路。
+- 新增一个独立的 GitHub 远端用于外部同步，直接将 `main` 推送过去。
+- 若存在认证要求，则依赖本机现有 GitHub 凭据管理或交互式认证。
+
+### 具体改动
+- 将新增 GitHub 远端指向：`https://github.com/moyan726/Oryza-Sentinel.git`
+- 将把当前 `main` 分支推送到该远端
+- 若推送成功，将形成一条新的中文提交记录用于同步本次操作说明
+
+### 影响面
+- 包含项：远端配置、远端同步、版本历史补充记录。
+- 不包含项：不修改数据集内容，不调整训练代码逻辑。
+- 关键点：保留本地远端与 GitHub 远端并存，避免覆盖已有本地推送路径。
+
+### 风险与回滚
+- 风险点：GitHub 推送可能受网络或认证失败影响；若远端已出现同名历史，可能需要处理分支关系。
+- 缓解措施：当前远端页面显示为空仓库，冲突风险较低；推送前保留本地提交历史不变。
+- 回退方式：若 GitHub 远端配置不需要，可删除对应 remote；本地仓库与本地 bare 远端不受影响。
+
+### 验证
+- 待验证项：
+  - GitHub 远端添加成功
+  - `main` 分支推送成功
+  - GitHub 页面可见当前项目文件
+
+### 关联信息
+- GitHub 仓库：`https://github.com/moyan726/Oryza-Sentinel.git`
+- 当前本地远端：`origin -> .local-remote.git`

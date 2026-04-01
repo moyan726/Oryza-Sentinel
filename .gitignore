@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.idea/
+.venv/
+outputs/
+Rice Leaf Disease Images/
+Rice Leaf Disease Images.rar
+condaenv.*.requirements.txt
+.local-remote.git/

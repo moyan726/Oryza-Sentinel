@@ -1,0 +1,35 @@
+experiment_name: smoke_official_efficientnet_b0
+dataset_root: Rice Leaf Disease Images
+manifest_root: outputs/manifests
+output_root: outputs
+dataset_view: official
+model_name: efficientnet_b0
+img_size: 224
+batch_size: 8
+num_workers: 0
+optimizer: adamw
+lr: 0.001
+weight_decay: 0.0001
+dropout: 0.3
+label_smoothing: 0.03
+freeze_epochs: 1
+finetune_epochs: 1
+early_stopping_patience: 2
+scheduler_patience: 1
+min_delta: 0.0
+seed: 42
+device: auto
+amp: auto
+use_pretrained: false
+allow_pretrained_fallback: true
+train_split: train
+val_split: validation
+test_split: test
+eval_after_train: true
+max_train_batches_per_epoch: 4
+max_eval_batches_per_epoch: 2
+class_names:
+  - Bacterialblight
+  - Blast
+  - Brownspot
+  - Tungro

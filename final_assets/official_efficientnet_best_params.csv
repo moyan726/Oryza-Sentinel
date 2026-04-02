@@ -1,0 +1,2 @@
+﻿optimizer,lr,weight_decay,dropout,label_smoothing,freeze_epochs,finetune_epochs,batch_size
+adamw,0.0002710364225466581,1.296013562349762e-05,0.3726753363320149,0.11283345642709426,2,5,16

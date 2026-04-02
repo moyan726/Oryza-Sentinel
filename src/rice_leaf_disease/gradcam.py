@@ -12,11 +12,20 @@ from torchvision import transforms
 class GradCAM:
     def __init__(self, model: torch.nn.Module, target_layer: torch.nn.Module) -> None:
         self.model = model
+        self._disable_inplace_activations(self.model)
         self.target_layer = target_layer
         self.activations = None
         self.gradients = None
         self.forward_handle = self.target_layer.register_forward_hook(self._forward_hook)
         self.backward_handle = self.target_layer.register_full_backward_hook(self._backward_hook)
+
+    def _disable_inplace_activations(self, module: torch.nn.Module) -> None:
+        for child in module.modules():
+            if hasattr(child, "inplace"):
+                try:
+                    child.inplace = False
+                except Exception:
+                    pass
 
     def _forward_hook(self, _module, _inputs, output):
         self.activations = output.detach()

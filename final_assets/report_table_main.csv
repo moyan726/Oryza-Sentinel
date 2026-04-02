@@ -1,0 +1,7 @@
+﻿dataset_view,model_name,accuracy,macro_precision,macro_recall,macro_f1,checkpoint_path
+clean,custom_cnn,0.9937369519832986,0.993988069346921,0.9927083333333332,0.9933129916311958,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_customcnn\best_model.pt
+clean,efficientnet_b0,0.9979123173277662,0.9979338842975208,0.9981060606060606,0.9980120852594544,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_efficientnet_tuned\best_model.pt
+clean,resnet18,1.0,1.0,1.0,1.0,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_resnet18\best_model.pt
+official,custom_cnn,0.99512987012987,0.9957448280633778,0.9945833333333334,0.9951502769038194,E:\pycharm\Python3_9\DeepLearning\outputs\runs\official_customcnn\best_model.pt
+official,efficientnet_b0,0.9983766233766234,0.9979338842975208,0.9986979166666666,0.9983099140872994,E:\pycharm\Python3_9\DeepLearning\outputs\runs\official_efficientnet_tuned\best_model.pt
+official,resnet18,0.99512987012987,0.9939024390243902,0.9957291666666668,0.9947685593220156,E:\pycharm\Python3_9\DeepLearning\outputs\runs\official_resnet18\best_model.pt

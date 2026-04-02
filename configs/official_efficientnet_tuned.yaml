@@ -1,0 +1,33 @@
+experiment_name: official_efficientnet_tuned
+dataset_root: Rice Leaf Disease Images
+manifest_root: outputs/manifests
+output_root: outputs
+dataset_view: official
+model_name: efficientnet_b0
+img_size: 224
+batch_size: 16
+num_workers: 0
+optimizer: adamw
+lr: 0.0002710364225466581
+weight_decay: 0.00001296013562349762
+dropout: 0.3726753363320149
+label_smoothing: 0.11283345642709426
+freeze_epochs: 2
+finetune_epochs: 5
+early_stopping_patience: 4
+scheduler_patience: 2
+min_delta: 0.0005
+seed: 42
+device: auto
+amp: auto
+use_pretrained: true
+allow_pretrained_fallback: true
+train_split: train
+val_split: validation
+test_split: test
+eval_after_train: true
+class_names:
+  - Bacterialblight
+  - Blast
+  - Brownspot
+  - Tungro

@@ -1,0 +1,8 @@
+optimizer: adamw
+lr: 0.0002710364225466581
+weight_decay: 1.296013562349762e-05
+dropout: 0.3726753363320149
+label_smoothing: 0.11283345642709426
+freeze_epochs: 2
+finetune_epochs: 5
+batch_size: 16

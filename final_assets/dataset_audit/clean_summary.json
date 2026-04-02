@@ -1,0 +1,77 @@
+{
+  "total_images": 4794,
+  "unique_hashes": 4794,
+  "split_counts": {
+    "test": 479,
+    "train": 3835,
+    "validation": 480
+  },
+  "class_counts": {
+    "Bacterialblight": 1326,
+    "Blast": 960,
+    "Brownspot": 1200,
+    "Tungro": 1308
+  },
+  "split_class_counts": [
+    {
+      "split": "test",
+      "class_name": "Bacterialblight",
+      "count": 132
+    },
+    {
+      "split": "test",
+      "class_name": "Blast",
+      "count": 96
+    },
+    {
+      "split": "test",
+      "class_name": "Brownspot",
+      "count": 120
+    },
+    {
+      "split": "test",
+      "class_name": "Tungro",
+      "count": 131
+    },
+    {
+      "split": "train",
+      "class_name": "Bacterialblight",
+      "count": 1061
+    },
+    {
+      "split": "train",
+      "class_name": "Blast",
+      "count": 768
+    },
+    {
+      "split": "train",
+      "class_name": "Brownspot",
+      "count": 960
+    },
+    {
+      "split": "train",
+      "class_name": "Tungro",
+      "count": 1046
+    },
+    {
+      "split": "validation",
+      "class_name": "Bacterialblight",
+      "count": 133
+    },
+    {
+      "split": "validation",
+      "class_name": "Blast",
+      "count": 96
+    },
+    {
+      "split": "validation",
+      "class_name": "Brownspot",
+      "count": 120
+    },
+    {
+      "split": "validation",
+      "class_name": "Tungro",
+      "count": 131
+    }
+  ]
+}

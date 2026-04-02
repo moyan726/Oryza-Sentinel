@@ -204,3 +204,141 @@
 ### 关联信息
 - GitHub 仓库：`https://github.com/moyan726/Oryza-Sentinel.git`
 - 当前本地远端：`origin -> .local-remote.git`
+
+## 2026-04-01 22:20 (Asia/Shanghai) - 正式训练、调参与报告回填实施
+
+### 变更摘要
+开始执行正式实验方案，目标是完成 3 个模型在 official/clean 双视图下的完整对比、对 official 主力模型进行正式调参，并用真实结果回填实验报告与答辩材料。
+
+### 问题说明
+- 当前项目只有 smoke 级产物，尚无正式训练结果，报告与答辩文档仍保留模板占位。
+- 现有代码已能跑通训练、评估、调参与推理链路，但缺少正式配置矩阵、轻量结果归档与最终文档回填。
+- 若直接开始长时训练而不先补齐正式配置和结果汇总机制，后续容易出现实验命名混乱、图表难以汇总、报告回填重复劳动的问题。
+
+### 策略方向
+- 先补正式实验配置、结果汇总与轻量产物导出能力，再运行长时 GPU 训练与调参。
+- 以 `official_efficientnet_tuned` 为官方主结果，以 `clean_efficientnet_tuned` 为严谨性主结果。
+- 保持输出物分层：完整中间产物继续放在 `outputs/`，最终提交素材汇总到轻量目录，便于后续 Git 管理。
+
+### 具体改动
+- 待新增正式 YAML 配置矩阵。
+- 待补充轻量结果导出与汇总能力。
+- 待运行正式训练、正式调参与统一测试评估。
+- 待将真实指标回填到 `docs/report.md` 与 `docs/defense.md`。
+
+### 影响面
+- 包含项：配置文件、训练与评估流程、汇总结果文件、报告与答辩稿。
+- 不包含项：原始数据集内容不变，大型模型权重默认不进入 Git 跟踪。
+- 关键点：最终报告必须只保留真实结果，不保留“待填”占位。
+
+### 风险与回滚
+- 风险点：正式调参与完整矩阵训练耗时较长；若最佳权重下载异常，迁移学习实验可能退回随机初始化；部分模型结果可能不及预期。
+- 缓解措施：统一命名实验、优先使用可用 GPU、保留 CPU/GPU 自动回退、保留所有实际结果并在文档中解释。
+- 回退方式：若个别训练阶段异常，可复用现有 checkpoint 与配置单独重跑受影响模型，不必重做全部实验。
+
+### 验证
+- 待验证项：
+  - 6 个正式实验配置可成功启动
+  - official 主模型调参成功并导出最佳参数
+  - 最终主表与关键图表齐备
+  - 报告与答辩材料完成真实结果回填
+
+### 关联信息
+- 正式实验矩阵：`official/clean × CustomCNN/ResNet18/EfficientNet-B0`
+- 目标环境：`rice-leaf-dl`
+
+## 2026-04-02 02:32 (Asia/Shanghai) - 完成正式训练、正式调参与报告回填
+
+### 变更摘要
+已完成正式实验矩阵训练、official 主模型的正式 Optuna 调参、6 组正式测试评估、轻量结果导出，以及实验报告与答辩材料的真实结果回填。
+
+### 问题说明
+- 需要把此前仅有 smoke 级产物的项目推进到“可交期末作业”的正式版本。
+- 需要在有限 GPU 预算内完成 3 个模型在 official/clean 双视图下的完整对比。
+- 需要保证报告中的表格、结论、图表路径和调参结果全部基于真实实验输出，而不是模板占位。
+
+### 策略方向
+- 使用独立 GPU 环境 `rice-leaf-dl` 统一完成正式训练与调参。
+- 采用“official 作为高分展示、clean 作为严谨性补充”的双轨评测。
+- 将完整中间产物保留在 `outputs/`，再通过 `summarize_results.py` 导出轻量结果到 `final_assets/`，方便后续提交与 Git 管理。
+
+### 具体改动
+- 新增正式配置矩阵：
+  - `configs/official_customcnn.yaml`
+  - `configs/official_resnet18.yaml`
+  - `configs/official_efficientnet_search.yaml`
+  - `configs/official_efficientnet_tuned.yaml`
+  - `configs/clean_customcnn.yaml`
+  - `configs/clean_resnet18.yaml`
+  - `configs/clean_efficientnet_tuned.yaml`
+- 新增轻量结果汇总脚本：`summarize_results.py`
+- 修复 Grad-CAM 与 inplace 激活冲突：
+  - 调整 `CustomCNN` 中 ReLU 为非 inplace
+  - 在 `GradCAM` 初始化时统一关闭模型中的 inplace 激活
+- 完成正式训练与评估：
+  - `official_customcnn`
+  - `official_resnet18`
+  - `official_efficientnet_tuned`
+  - `clean_customcnn`
+  - `clean_resnet18`
+  - `clean_efficientnet_tuned`
+- 完成 official 主模型正式调参：
+  - 基于 `official_efficientnet_search`
+  - 运行 12 个 Optuna trial
+- 导出轻量结果目录：`final_assets/`
+- 回填并重写：
+  - `docs/report.md`
+  - `docs/defense.md`
+
+### 影响面
+- 包含项：正式配置、正式训练结果、调参记录、图表、轻量结果目录、最终中文报告、最终中文答辩提纲。
+- 不包含项：大型模型权重未纳入轻量目录，也未计划纳入 Git 跟踪。
+- 关键点：文档中的“待填”占位已全部移除，结论已基于真实实验结果改写。
+
+### 风险与回滚
+- 风险点：
+  - official 数据集存在 224 组跨集合重复图，官方结果仍存在乐观偏差风险。
+  - clean 视图下 `ResNet18` 测试集达到 100%，该结果可能受当前 clean 划分规模和样本难度影响，后续若扩展数据或做交叉验证，结果可能波动。
+- 缓解措施：
+  - 报告已明确写出 official 与 clean 双视图的差异与意义。
+  - 保留全部真实对比结果，不隐藏对主线模型不利的数值。
+- 回退方式：
+  - 若后续需要重跑任一模型，可直接复用当前配置文件与环境重新训练。
+  - 若只需更新文档，可复用 `final_assets/` 中的轻量结果重新回填。
+
+### 验证
+- 数据与环境：
+  - 已重新生成 `official` 与 `clean` manifest
+  - 已确认 GPU 环境可持续训练与调参
+  - 已预下载 `ResNet18` 与 `EfficientNet-B0` 官方预训练权重
+- 调参与训练：
+  - official 主模型 Optuna 正式调参 12 次完成，其中 7 次完成、5 次剪枝
+  - 最优参数为：
+    - optimizer=`adamw`
+    - lr=`0.0002710364225466581`
+    - weight_decay=`1.296013562349762e-05`
+    - dropout=`0.3726753363320149`
+    - label_smoothing=`0.11283345642709426`
+    - freeze_epochs=`2`
+    - finetune_epochs=`5`
+    - batch_size=`16`
+- 正式测试结果：
+  - official / CustomCNN：Accuracy `99.51%`，Macro F1 `99.52%`
+  - official / ResNet18：Accuracy `99.51%`，Macro F1 `99.48%`
+  - official / EfficientNet-B0 tuned：Accuracy `99.84%`，Macro F1 `99.83%`
+  - clean / CustomCNN：Accuracy `99.37%`，Macro F1 `99.33%`
+  - clean / ResNet18：Accuracy `100.00%`，Macro F1 `100.00%`
+  - clean / EfficientNet-B0 tuned：Accuracy `99.79%`，Macro F1 `99.80%`
+- 轻量结果：
+  - 已导出 `final_assets/report_table_main.csv`
+  - 已导出 `final_assets/official_efficientnet_best_params.csv`
+  - 已导出关键图表到 `final_assets/figures/`
+- 文档：
+  - `docs/report.md` 已回填真实结果且无“待填”
+  - `docs/defense.md` 已补入最终指标与答辩口述稿
+
+### 关联信息
+- official 主结果：`official_efficientnet_tuned`
+- clean 主结果：`clean_efficientnet_tuned`
+- clean 对比最高分：`clean_resnet18`
+- 轻量结果目录：`E:\pycharm\Python3_9\DeepLearning\final_assets`

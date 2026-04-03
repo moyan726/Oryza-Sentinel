@@ -173,6 +173,31 @@ python evaluate.py --config <config> --checkpoint <best_model.pt>
 - 在 `clean` 视图中，`ResNet18` 测试集取得了 100% 准确率，是本次 clean 对比中的最高分；但为了保持“统一主力模型 + 调参主线”的叙述一致性，报告主线仍使用调优后的 `EfficientNet-B0` 作为 clean 主结果展示。
 - `official` 与 `clean` 的差距不算大，说明模型本身具备较强识别能力；但由于官方划分存在跨集合重复图，clean 视图仍然更值得作为泛化结论依据。
 
+### 5.4 ResNet18 稳定性验证
+
+为了验证 `clean_resnet18` 的 `100%` 结果不是偶然，本实验额外进行了 3 次不同随机种子的重复训练与测试：
+
+| seed | Accuracy | Macro Precision | Macro Recall | Macro F1 |
+| --- | --- | --- | --- | --- |
+| 42 | 100.00% | 100.00% | 100.00% | 100.00% |
+| 123 | 99.79% | 99.81% | 99.74% | 99.77% |
+| 2026 | 100.00% | 100.00% | 100.00% | 100.00% |
+
+稳定性汇总：
+
+- Accuracy 均值：`99.93%`
+- Accuracy 标准差：`0.10%`
+- Macro F1 均值：`99.92%`
+- Macro F1 标准差：`0.11%`
+
+对应产物：
+
+- `final_assets/resnet18_seed_consistency.csv`
+- `final_assets/resnet18_seed_consistency_summary.csv`
+- `final_assets/figures/resnet18_seed_consistency.png`
+
+这说明 `clean_resnet18` 的高分结果并非单次偶然。虽然不同随机种子下不保证每次都达到绝对 `100%`，但整体波动极小，仍可认为它在当前 clean 划分上的表现非常稳定。
+
 ## 6. 测试结果与可解释性
 
 ### 6.1 主结果表
@@ -215,6 +240,11 @@ clean 视图主线结果采用 `clean_efficientnet_tuned`：
 - 实际完成训练轮数：`7`
 
 同时，`clean_resnet18` 在当前 clean 测试集上取得了 `100.00%` 的准确率与 Macro F1，是本轮对比中的最高分模型，这说明在当前数据规模和类别区分度下，较轻量的残差网络也能获得极强的识别性能。
+
+结合多随机种子重复实验可以进一步说明：
+
+- `clean_resnet18` 并不是“只在单次 seed 下偶然达到 100%”
+- 但它也不是每次都绝对 100%，因此更准确的表述应为“在当前 clean 划分上稳定取得接近满分的高表现”
 
 ### 6.4 混淆矩阵与分类指标
 
@@ -267,8 +297,18 @@ clean 视图主线结果采用 `clean_efficientnet_tuned`：
 - 官方主结果：`official_efficientnet_tuned`，Accuracy `99.84%`
 - clean 主结果：`clean_efficientnet_tuned`，Accuracy `99.79%`
 - clean 对比最高分：`clean_resnet18`，Accuracy `100.00%`
+- clean ResNet18 稳定性验证：3 次 seed 平均 Accuracy `99.93%`
 
-### 7.3 改进方向
+### 7.3 为什么 clean 视图下 ResNet18 优于 EfficientNet-B0
+
+结合本次实验现象，可以给出一个合理解释：
+
+1. 当前 clean 数据规模并不大，且四类病害的视觉差异整体较明显。
+2. `ResNet18` 的模型容量更适中，在该数据规模下更容易形成稳定泛化，而不需要更复杂的特征缩放机制。
+3. `EfficientNet-B0` 已经非常强，但它的优势通常在更大规模、更复杂分布的数据上更容易体现。
+4. 在当前任务上，`ResNet18` 的结构复杂度与数据难度更匹配，因此 clean 视图下取得了更高且更稳定的结果。
+
+### 7.4 改进方向
 
 - 收集更多真实场景图像，减少重复图和增强图带来的数据偏差
 - 增加更多边界样本分析，重点提升白枯病与其他病害的区分能力

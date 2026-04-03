@@ -1,0 +1,33 @@
+experiment_name: clean_resnet18_seed2026
+dataset_root: Rice Leaf Disease Images
+manifest_root: outputs/manifests
+output_root: outputs
+dataset_view: clean
+model_name: resnet18
+img_size: 224
+batch_size: 48
+num_workers: 0
+optimizer: adamw
+lr: 0.0008
+weight_decay: 0.0001
+dropout: 0.30
+label_smoothing: 0.03
+freeze_epochs: 3
+finetune_epochs: 10
+early_stopping_patience: 4
+scheduler_patience: 2
+min_delta: 0.0005
+seed: 2026
+device: auto
+amp: auto
+use_pretrained: true
+allow_pretrained_fallback: true
+train_split: train
+val_split: validation
+test_split: test
+eval_after_train: true
+class_names:
+  - Bacterialblight
+  - Blast
+  - Brownspot
+  - Tungro

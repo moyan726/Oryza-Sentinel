@@ -1,0 +1,4 @@
+﻿experiment_name,dataset_view,model_name,split,seed,accuracy,macro_precision,macro_recall,macro_f1,checkpoint_path
+clean_resnet18,clean,resnet18,test,42,1.0,1.0,1.0,1.0,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_resnet18\best_model.pt
+clean_resnet18_seed123,clean,resnet18,test,123,0.9979123173277662,0.9981203007518796,0.9973958333333334,0.9977477032500248,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_resnet18_seed123\best_model.pt
+clean_resnet18_seed2026,clean,resnet18,test,2026,1.0,1.0,1.0,1.0,E:\pycharm\Python3_9\DeepLearning\outputs\runs\clean_resnet18_seed2026\best_model.pt

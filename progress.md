@@ -342,3 +342,126 @@
 - clean 主结果：`clean_efficientnet_tuned`
 - clean 对比最高分：`clean_resnet18`
 - 轻量结果目录：`E:\pycharm\Python3_9\DeepLearning\final_assets`
+
+## 2026-04-03 09:10 (Asia/Shanghai) - 追加 ResNet18 稳定性验证与答辩补强
+
+### 变更摘要
+开始执行新一轮优化，重点围绕 `clean_resnet18` 增加多随机种子稳定性验证，并补强答辩所需的“为什么 ResNet18 在 clean 上表现更强”和“100% 结果是否可信”的证据链。
+
+### 问题说明
+- 当前正式结果已经足够作为期末作业提交，但 `clean_resnet18` 达到 `100%` 的结果较容易在答辩时被追问其稳定性与可信度。
+- 现有文档已具备正式结果，但缺少多随机种子重复实验、稳定性统计图和针对 `ResNet18` 的单独答辩话术。
+- 若不补充稳定性验证，答辩时容易被质疑“是不是当前划分刚好简单”。
+
+### 策略方向
+- 只针对 `clean_resnet18` 做种子重复实验，不扩大到新的模型族或新一轮大规模调参。
+- 优先增强答辩可信度，而不是继续追求更高的单次分数。
+- 保持轻量结果导出策略不变，所有新增稳定性图表与表格统一收敛到 `final_assets/`。
+
+### 具体改动
+- 待新增：
+  - `configs/clean_resnet18_seed123.yaml`
+  - `configs/clean_resnet18_seed2026.yaml`
+- 待补充：
+  - `final_assets/resnet18_seed_consistency.csv`
+  - `final_assets/figures/resnet18_seed_consistency.png`
+  - `clean_resnet18` 的轻量答辩图表导出
+- 待更新：
+  - `docs/report.md`
+  - `docs/defense.md`
+
+### 影响面
+- 包含项：稳定性配置、重复实验结果、轻量稳定性汇总、文档增强。
+- 不包含项：不新增第三方依赖，不再次扩大 EfficientNet 调参范围，不提交大型模型权重。
+- 关键点：若多 seed 结果存在波动，文档结论必须如实降级，不保留“完全稳定”的绝对表述。
+
+### 风险与回滚
+- 风险点：重复实验可能暴露 `clean_resnet18` 对随机种子敏感，导致答辩结论需要调整。
+- 缓解措施：提前约定文档话术以“稳定高分”或“当前划分下最高分但存在随机性”两档切换。
+- 回退方式：若某个 seed 训练异常，可单独重跑该 seed；如需停止本轮增强，也不影响上一轮正式作业版本。
+
+### 验证
+- 待验证项：
+  - 新增两个 seed 配置可成功训练与评估
+  - 稳定性汇总 CSV 和图表成功生成
+  - 报告与答辩材料新增稳定性结论和高频追问回答
+
+### 关联信息
+- 稳定性验证目标模型：`clean_resnet18`
+- 目标输出目录：`E:\pycharm\Python3_9\DeepLearning\final_assets`
+
+## 2026-04-03 10:25 (Asia/Shanghai) - 完成 ResNet18 多种子稳定性验证与答辩增强
+
+### 变更摘要
+已围绕 `clean_resnet18` 完成 2 组新增随机种子重复训练与测试评估，形成 3 次 seed 的稳定性验证结果，并将其回填到实验报告、答辩提纲和轻量结果目录中。
+
+### 问题说明
+- `clean_resnet18` 在上一轮实验中达到 `100%` 测试准确率，但单次高分结果在答辩中容易被质疑是否仅由当前随机种子或当前划分偶然造成。
+- 现有报告缺少“稳定性验证”和“高频追问回答”，不利于应对老师对结果可信度的追问。
+
+### 策略方向
+- 固定网络结构、数据划分和训练参数，仅更换随机种子验证结果稳定性。
+- 用“均值 + 标准差 + 单次结果”来支撑答辩结论，而不是继续使用单次 `100%` 进行绝对化表述。
+- 在保留 EfficientNet 调参主线的同时，将 `ResNet18` 提升为答辩亮点。
+
+### 具体改动
+- 新增配置：
+  - `configs/clean_resnet18_seed123.yaml`
+  - `configs/clean_resnet18_seed2026.yaml`
+- 更新代码：
+  - `src/rice_leaf_disease/analysis.py`
+    - 当测试集无错分样本时，自动生成占位错误样本图，避免答辩素材缺失
+  - `summarize_results.py`
+    - 导出 `resnet18_seed_consistency.csv`
+    - 导出 `resnet18_seed_consistency_summary.csv`
+    - 导出 `figures/resnet18_seed_consistency.png`
+    - 增加 `clean_resnet18` 的混淆矩阵、分类指标图、Grad-CAM 和误差图导出
+- 更新文档：
+  - `docs/report.md`
+    - 新增 `5.4 ResNet18 稳定性验证`
+    - 新增“为什么 clean 下 ResNet18 优于 EfficientNet-B0”的解释
+    - 调整结论，避免将 `100%` 描述为绝对稳定
+  - `docs/defense.md`
+    - 强化 ResNet18 为答辩亮点
+    - 新增“高频追问回答”段落
+
+### 影响面
+- 包含项：配置、稳定性汇总、轻量图表、报告内容、答辩口述材料。
+- 不包含项：未新增第三方依赖，未扩大到其他模型的新一轮大规模调参。
+- 关键点：答辩话术已从“单次 100%”升级为“多 seed 下稳定高分”。
+
+### 风险与回滚
+- 风险点：新增 seed 中有一次结果低于 100%，若表述不当会被误解为模型不稳定。
+- 缓解措施：文档已明确写出真实结果为 `100.00% / 99.79% / 100.00%`，并用均值和标准差解释其整体稳定性。
+- 回退方式：若后续希望回到更保守表述，可仅保留稳定性 CSV 和图表，不在口头答辩中突出数值结论。
+
+### 验证
+- 新增训练：
+  - `clean_resnet18_seed123`
+    - 最优验证准确率：`100.00%`
+    - 测试 Accuracy：`99.79%`
+    - 测试 Macro F1：`99.77%`
+  - `clean_resnet18_seed2026`
+    - 最优验证准确率：`100.00%`
+    - 测试 Accuracy：`100.00%`
+    - 测试 Macro F1：`100.00%`
+- 稳定性汇总：
+  - seed 42：Accuracy `100.00%`
+  - seed 123：Accuracy `99.79%`
+  - seed 2026：Accuracy `100.00%`
+  - 平均 Accuracy：`99.93%`
+  - Accuracy 标准差：`0.10%`
+  - 平均 Macro F1：`99.92%`
+  - Macro F1 标准差：`0.11%`
+- 轻量结果：
+  - 已生成 `final_assets/resnet18_seed_consistency.csv`
+  - 已生成 `final_assets/resnet18_seed_consistency_summary.csv`
+  - 已生成 `final_assets/figures/resnet18_seed_consistency.png`
+  - 已补齐 `clean_resnet18` 的轻量答辩图表
+- 文档：
+  - `docs/report.md` 已新增稳定性章节
+  - `docs/defense.md` 已新增“高频追问回答”
+
+### 关联信息
+- 稳定性结论核心表述：`clean_resnet18` 在 3 个随机种子下均取得 `>=99.79%` 的测试准确率
+- 当前最佳答辩亮点模型：`clean_resnet18`

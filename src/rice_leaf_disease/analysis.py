@@ -129,6 +129,14 @@ def plot_class_metrics(report_df: pd.DataFrame, output_path: str | Path) -> None
 def plot_misclassified_examples(predictions: pd.DataFrame, class_names: list[str], output_path: str | Path, max_items: int = 9) -> None:
     wrong = predictions[predictions["correct"] == 0].head(max_items)
     if wrong.empty:
+        figure, axis = plt.subplots(figsize=(8, 4))
+        axis.axis("off")
+        axis.text(0.5, 0.5, "No misclassified examples in this split.", ha="center", va="center", fontsize=14)
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.tight_layout()
+        plt.savefig(output_path, dpi=200)
+        plt.close(figure)
         return
     cols = 3
     rows = int(np.ceil(len(wrong) / cols))

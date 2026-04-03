@@ -121,26 +121,68 @@ clean 对比最高分：`clean_resnet18`
 - Accuracy：`100.00%`
 - Macro F1：`100.00%`
 
+补充稳定性验证：
+
+- seed=42：Accuracy `100.00%`
+- seed=123：Accuracy `99.79%`
+- seed=2026：Accuracy `100.00%`
+- 平均 Accuracy：`99.93%`
+- Accuracy 标准差：`0.10%`
+
 答辩时可这样说：
 
 “我没有只展示官方高分结果，还额外做了去重重划分。这样既能说明模型性能高，也能说明实验设计是严谨的。”
 
-## 第 9 页：错误分析与可解释性
+## 第 9 页：为什么 ResNet18 在 clean 上更强
+
+- 当前 clean 数据集规模不算大，但类别差异较明显
+- `ResNet18` 参数量更适中，泛化更稳
+- `EfficientNet-B0` 已经很强，但在当前数据规模下没有明显超过 `ResNet18`
+- 因此 `ResNet18` 成为了 clean 视图下最适合强调的答辩亮点
+
+建议展示：
+
+- `final_assets/figures/resnet18_seed_consistency.png`
+- `final_assets/figures/clean_resnet18_confusion_matrix.png`
+
+## 第 10 页：错误分析与可解释性
 
 - `official_efficientnet_tuned` 的错误极少，主要是白枯病边界样本与其他病害的局部纹理相似
 - `clean_efficientnet_tuned` 也仅有 1 个错分样本
+- `clean_resnet18` 在 seed=42 与 seed=2026 下测试集无错分，在 seed=123 下仍保持接近满分
 - Grad-CAM 显示模型主要关注叶片病斑区域，而非背景
 
 建议展示：
 
 - `final_assets/figures/official_best_misclassified_examples.png`
 - `final_assets/figures/official_best_gradcam_gallery.png`
+- `final_assets/figures/clean_resnet18_misclassified_examples.png`
+- `final_assets/figures/clean_resnet18_gradcam_gallery.png`
 
-## 第 10 页：总结
+## 第 11 页：高频追问回答
+
+### 为什么 official 分数通常高于 clean？
+
+因为 official 划分存在跨 `train / validation / test` 的重复图像，模型更容易在测试时见到与训练样本高度相似的图像，所以 official 分数会偏高。
+
+### 为什么 ResNet18 在 clean 上比 EfficientNet-B0 更高？
+
+因为当前 clean 数据规模不算大，`ResNet18` 的模型容量与任务复杂度更匹配，泛化更稳；`EfficientNet-B0` 虽然很强，但在这个任务上没有体现出明显更高的上限。
+
+### clean_resnet18 的 100% 是否可信？
+
+单次 100% 不能直接说明完全稳定，所以我补做了 3 个随机种子重复实验。结果分别为 `100.00% / 99.79% / 100.00%`，平均 Accuracy 为 `99.93%`，说明这是一个稳定高分结果，但不是每次都绝对 100%。
+
+### 为什么仍保留 EfficientNet 作为调参主线？
+
+因为整个实验的超参数搜索和主方法设计围绕 `EfficientNet-B0` 展开，它更适合作为“方法论主线”；而 `ResNet18` 更适合作为“结果亮点”和“模型容量匹配”的答辩亮点。
+
+## 第 12 页：总结
 
 - 本项目完成了从数据审计到模型训练、调参、评估和答辩材料生成的完整流程
 - 迁移学习是本任务的最优主路线
 - 官方划分结果更高，但 clean 划分更能说明模型真实泛化能力
+- `clean_resnet18` 经过多 seed 验证后仍然保持稳定高分
 - 最终结果已经达到课程作业中“高准确率 + 调参 + 图表分析”的完整要求
 
 ## 可直接口述的总结稿

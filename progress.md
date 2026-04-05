@@ -574,3 +574,102 @@
 ### 关联信息
 - 当前 README 已与 `final_assets/*.csv` 和正式实验结果保持一致
 - 当前 README 改动已完成，版本控制同步由后续 Git 提交与远端推送处理
+
+## 2026-04-03 21:10 (Asia/Shanghai) - 新增答辩 PPT 大纲与 `.pptx` 自动生成能力
+
+### 变更摘要
+开始为当前课程项目新增答辩 PPT 大纲文档与 `.pptx` 自动生成能力，目标是基于现有正式实验结果和图表产物，生成一份可直接打开和使用的课程答辩演示文件。
+
+### 问题说明
+- 当前项目已经具备正式实验报告、答辩提纲和轻量结果图表，但尚未产出实际的 `.pptx` 演示文件。
+- 当前环境未安装 `python-pptx`，也未发现可直接调用的 PowerPoint / LibreOffice 程序，因此无法直接生成 PPT 文件。
+- 若只保留 Markdown 版答辩提纲，仍需要手工排版才能形成真正可交付的答辩文件。
+
+### 策略方向
+- 采用 `python-pptx` 自动生成 `.pptx` 文件，不依赖手工打开 PowerPoint 排版。
+- 继续复用现有 `final_assets/figures` 中的正式图表结果，避免重复绘图。
+- 同步新增一份 `docs/ppt_outline.md`，使答辩文稿与 PPT 内容保持一一对应。
+
+### 具体改动
+- 待新增依赖：
+  - `python-pptx`
+- 待同步更新：
+  - `requirements.txt`
+  - `environment.yml`
+- 待新增文件：
+  - `docs/ppt_outline.md`
+  - `build_ppt.py`
+- 待生成产物：
+  - `final_assets/ppt/水稻叶病害分类答辩.pptx`
+
+### 影响面
+- 包含项：依赖、PPT 生成脚本、PPT 大纲、实际 PPT 文件、文档说明。
+- 不包含项：本次不新增训练实验，不修改现有正式结果数值。
+- 关键点：新增第三方依赖后，必须同步依赖文件与变更记录，保证他人可复现。
+
+### 风险与回滚
+- 风险点：`python-pptx` 安装可能受网络或环境兼容性影响；自动排版生成的 PPT 可能需要通过几次样式调整才能达到较好的可读性。
+- 缓解措施：优先使用已验证的 `rice-leaf-dl` 环境，固定版式风格并复用现有结果图。
+- 回退方式：若自动生成的 PPT 版式不理想，至少保留 `docs/ppt_outline.md` 作为手工答辩稿基础；若依赖安装失败，则保留生成脚本草案与大纲文档。
+
+### 验证
+- 待验证项：
+  - `python-pptx` 安装成功
+  - `build_ppt.py` 能生成 `.pptx`
+  - `.pptx` 文件包含 12 页
+  - 大纲与 PPT 页面内容一致
+
+### 关联信息
+- PPT 目标路径：`E:\pycharm\Python3_9\DeepLearning\final_assets\ppt\水稻叶病害分类答辩.pptx`
+- 大纲目标路径：`E:\pycharm\Python3_9\DeepLearning\docs\ppt_outline.md`
+
+## 2026-04-03 20:50 (Asia/Shanghai) - 答辩 PPT 大纲与 `.pptx` 文件生成完成
+
+### 变更摘要
+已新增答辩 PPT 大纲文档、PPT 自动生成脚本，并成功生成一份可直接打开的 `.pptx` 答辩文件。
+
+### 问题说明
+- 原有项目仅有 Markdown 版答辩提纲，无法直接作为课堂答辩演示文件使用。
+- 当前环境初始缺少 `python-pptx`，无法自动输出真正的 PPT 文件。
+
+### 策略方向
+- 采用 `python-pptx` 自动生成答辩演示文件，不依赖手工排版。
+- 继续复用 `final_assets/figures` 中已有的正式图表结果，减少重复工作并保持文档、图表和 PPT 内容一致。
+
+### 具体改动
+- 依赖更新：
+  - `requirements.txt` 新增 `python-pptx`
+- 新增文件：
+  - `docs/ppt_outline.md`
+  - `build_ppt.py`
+- 文档同步：
+  - `docs/defense.md` 新增 PPT 落地说明
+  - `README.md` 新增 PPT 生成脚本和 PPT 文件路径说明
+- 生成产物：
+  - `final_assets/ppt/水稻叶病害分类答辩.pptx`
+
+### 影响面
+- 包含项：依赖、答辩大纲、PPT 自动生成脚本、实际 PPT 文件、README 与答辩文档说明。
+- 不包含项：本次未新增实验结果，不改变已有训练与评估逻辑。
+- 关键点：PPT 内容与现有正式实验结果、答辩提纲和轻量图表保持一致。
+
+### 风险与回滚
+- 风险点：自动生成的 PPT 虽已形成完整结构，但若老师对版式风格有强个性要求，仍可能需要人工微调。
+- 缓解措施：当前版式已固定为视觉强化风，重点图表与结论页已经到位，适合继续微调而不是从零制作。
+- 回退方式：若后续希望改版，可直接修改 `build_ppt.py` 后重新生成，不影响现有数据结果。
+
+### 验证
+- 依赖验证：
+  - 已成功安装 `python-pptx 1.0.2`
+- 生成功能验证：
+  - `build_ppt.py` 已成功运行
+  - 已生成 `E:\pycharm\Python3_9\DeepLearning\final_assets\ppt\水稻叶病害分类答辩.pptx`
+- 内容结构验证：
+  - 已使用 `python-pptx` 成功读取生成后的 PPT 文件
+  - 当前 PPT 共 `12` 页
+  - 文件大小约 `4.16 MB`
+
+### 关联信息
+- PPT 文件：`E:\pycharm\Python3_9\DeepLearning\final_assets\ppt\水稻叶病害分类答辩.pptx`
+- 生成脚本：`E:\pycharm\Python3_9\DeepLearning\build_ppt.py`
+- 大纲文档：`E:\pycharm\Python3_9\DeepLearning\docs\ppt_outline.md`

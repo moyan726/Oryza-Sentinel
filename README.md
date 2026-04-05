@@ -23,6 +23,7 @@
 - 已完成 `EfficientNet-B0` 的正式 Optuna 调参。
 - 已补充 `clean_resnet18` 的多随机种子稳定性验证。
 - 已导出轻量结果目录 `final_assets/`，可直接用于报告和答辩。
+- 已生成实际答辩 PPT 文件，可直接打开展示。
 - 已准备中文实验报告与中文答辩提纲。
 
 ## 环境与依赖
@@ -114,6 +115,7 @@ DeepLearning/
 ├─ docs/                          # 中文实验报告与答辩文档
 ├─ src/                           # 项目核心源码目录
 ├─ final_assets/                  # 轻量结果目录，可直接用于报告与答辩
+├─ build_ppt.py                   # 根据现有结果自动生成答辩 PPT 的脚本
 ├─ outputs/                       # 完整中间产物目录，不纳入 Git 跟踪
 └─ Rice Leaf Disease Images/      # 原始数据集目录
 ```
@@ -142,8 +144,9 @@ configs/
 
 ```text
 docs/
-├─ report.md   # 中文实验报告正式版
-└─ defense.md  # 中文答辩提纲与答辩口述稿
+├─ report.md       # 中文实验报告正式版
+├─ defense.md      # 中文答辩提纲与答辩口述稿
+└─ ppt_outline.md  # 逐页答辩 PPT 大纲
 ```
 
 ### 4. `src/rice_leaf_disease/` 源码目录
@@ -178,6 +181,8 @@ final_assets/
 ├─ dataset_audit/
 │  ├─ clean_summary.json                     # clean 视图数据统计摘要
 │  └─ official_summary.json                  # official 视图数据统计摘要
+├─ ppt/
+│  └─ 水稻叶病害分类答辩.pptx                  # 自动生成的实际答辩 PPT 文件
 └─ figures/
    ├─ best_params.png                        # 最优调参结果可视化
    ├─ clean_class_distribution.png           # clean 视图类别分布图
@@ -384,6 +389,12 @@ python evaluate.py --config configs/clean_resnet18_seed2026.yaml --checkpoint ou
 
 ```powershell
 python summarize_results.py
+```
+
+### 生成答辩 PPT
+
+```powershell
+python build_ppt.py
 ```
 
 ### 单图预测演示

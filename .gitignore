@@ -10,3 +10,6 @@ Rice Leaf Disease Images/
 Rice Leaf Disease Images.rar
 condaenv.*.requirements.txt
 .local-remote.git/
+.claude/
+.ipynb_checkpoints/
+.virtual_documents/

@@ -53,6 +53,7 @@ python -c "import torch; print(torch.__version__); print(torch.cuda.is_available
 
 - `environment.yml`：推荐的 Conda 环境定义
 - `requirements.txt`：PyTorch、可视化、调参和数据处理等依赖清单
+- `环境配置检查说明文档.md`：详细的环境验证与故障排除指南
 
 ## 快速开始
 
@@ -116,6 +117,7 @@ DeepLearning/
 ├─ src/                           # 项目核心源码目录
 ├─ final_assets/                  # 轻量结果目录，可直接用于报告与答辩
 ├─ build_ppt.py                   # 根据现有结果自动生成答辩 PPT 的脚本
+├─ 环境配置检查说明文档.md          # 环境验证操作指南（PyTorch / CUDA / GPU）
 ├─ outputs/                       # 完整中间产物目录，不纳入 Git 跟踪
 └─ Rice Leaf Disease Images/      # 原始数据集目录
 ```
@@ -144,9 +146,10 @@ configs/
 
 ```text
 docs/
-├─ report.md       # 中文实验报告正式版
-├─ defense.md      # 中文答辩提纲与答辩口述稿
-└─ ppt_outline.md  # 逐页答辩 PPT 大纲
+├─ report.md              # 中文实验报告正式版
+├─ defense.md             # 中文答辩提纲与答辩口述稿
+├─ qa_explanations.md     # 答辩常见质疑点集中解释稿
+└─ ppt_outline.md         # 逐页答辩 PPT 大纲
 ```
 
 ### 4. `src/rice_leaf_disease/` 源码目录

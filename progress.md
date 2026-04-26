@@ -757,3 +757,232 @@
 ### 关联信息
 - 书面版说明：`E:\pycharm\Python3_9\DeepLearning\docs\qa_explanations.md`
 - 口头版答辩稿：`E:\pycharm\Python3_9\DeepLearning\docs\defense.md`
+
+## 2026-04-24 07:09 (Asia/Shanghai) - 为现有答辩 PPT 补充本地图片素材
+
+### 变更摘要
+开始对现有答辩 PPT `docs/水稻叶病害智能识别：迁移学习与超参数调优实验.pptx` 进行视觉补充，在不改动页面原有文字内容的前提下，将项目本地已有的病害原图与实验图表放入更合适的页面位置，提升页面完成度与答辩展示效果。
+
+### 问题说明
+- 当前 PPT 已根据 `docs/PPT深读学习.md` 产出主要文案与页面结构，但部分页面仍缺少本地图片素材支撑，视觉信息密度不足。
+- 用户明确要求保留页面原有文字，不允许借插图过程改写或删改现有文案，因此需要采用“只增补图片、不改文本”的方式处理。
+- 项目中同时存在原始病害图片库与实验结果图表，若不先核对当前 PPT 的页结构与空白区域，容易出现插图错页、遮挡文本或图文不匹配的问题。
+
+### 策略方向
+- 先检查现有 PPT 的实际页数、版式结构、文本框与空白区域，再按页面主题选择最匹配的本地图像，而不是直接批量插入。
+- 优先复用项目内已有素材：封面/背景/任务页优先使用病害原图，结果分析页优先使用 `final_assets/figures` 下的实验图表，确保图文语义一致。
+- 修改方式控制为增量编辑：只新增图片对象，尽量不移动、不替换、不删除现有文字对象；如局部空间不足，优先寻找留白区域而不是调整文案。
+
+### 具体改动
+- 待检查并记录 `docs/水稻叶病害智能识别：迁移学习与超参数调优实验.pptx` 的页结构、可插图区域与适配关系。
+- 待从 `Rice Leaf Disease Images/` 与 `final_assets/figures/` 中筛选适合各页的本地图片素材。
+- 待将筛选后的图片写入目标 PPT，并输出修改后的结果文件。
+
+### 影响面
+- 包含项：目标 PPT 文件的图片元素补充、本地素材筛选、本次插图映射与结果核对。
+- 不包含项：不修改页面原有标题、正文、表格与结论文案；不新增第三方依赖；不改动实验数据与图表内容本身。
+- 关键点：最终结果必须保持原文字内容不变，同时保证新增图片与页面主题相匹配且不遮挡关键信息。
+
+### 风险与回滚
+- 风险点：图片尺寸或比例不合适可能压缩留白、遮挡文字，或使页面视觉重心失衡。
+- 缓解措施：先做页面结构检查与预览渲染，再执行写回；优先选择语义明确、构图稳定的本地图片；完成后逐页核对。
+- 回退方式：若插图效果不理想，可回退到当前未修改的 `docs/水稻叶病害智能识别：迁移学习与超参数调优实验.pptx` 原始版本，或重新导出一份仅调整图片层的 PPT 副本。
+
+### 验证
+- 待验证项：确认目标 PPT 页数与结构；确认每页插图不覆盖原有文字；确认输出文件可正常打开且图片嵌入成功；确认插图页与 `docs/PPT深读学习.md` 的页面主题一致。
+
+### 关联信息
+- 需求说明：`E:\pycharm\Python3_9\DeepLearning\docs\PPT深读学习.md`
+- 目标文件：`E:\pycharm\Python3_9\DeepLearning\docs\水稻叶病害智能识别：迁移学习与超参数调优实验.pptx`
+- 候选素材目录：`E:\pycharm\Python3_9\DeepLearning\Rice Leaf Disease Images`、`E:\pycharm\Python3_9\DeepLearning\final_assets\figures`
+
+## 2026-04-24 07:40 (Asia/Shanghai) - 现有答辩 PPT 本地图片补充完成
+
+### 变更摘要
+已基于项目本地病害图片与实验图表，为现有答辩 PPT 输出一份“本地图片版”成品，在不改动页面原有文字内容的前提下，将原先的占位性质风景图替换为更贴近课题语义的病害样例图、数据分布图、训练曲线图、模型对比图、混淆矩阵、错误样本图与 Grad-CAM 图。
+
+### 问题说明
+- 原始 PPT 已具备完整文字与版式，但多页仍使用泛化风格的风景占位图，和“水稻叶病害识别”课题本身关联不强。
+- 直接替换导入后的图片媒体时，发现源 PPT 中部分页复用了同一底层媒体资源，导致一处替换会串改到其他页，不适合继续使用“原位替换”方案。
+- 用户要求不能改动原有文字，因此本次只能围绕图片层与导出文件处理，不能通过重排文案来腾挪版面。
+
+### 策略方向
+- 改为从原始 PPT 重新导入，在目标图片位置上方覆盖新增本地图片，而不是改写共享媒体本体，避免串页。
+- 对封面、目录、背景介绍页优先使用本地病害样例拼贴图；对数据审计、训练分析、结果分析与可解释性页优先使用 `final_assets/figures` 内实验图表。
+- 对章节分隔页维持现有样式不强改，只处理有明确图片槽位或占位图的页面，以降低误伤版式风险。
+
+### 具体改动
+- 新增临时脚本与中间产物：
+  - `tmp/slides/ppt_image_insert/build_assets.py`
+  - `tmp/slides/ppt_image_insert/inspect_ppt.mjs`
+  - `tmp/slides/ppt_image_insert/update_ppt_images.mjs`
+  - `tmp/slides/ppt_image_insert/assets/` 下若干本地拼贴图与图表面板
+- 基于本地病害图片生成了封面/目录/横幅/竖版拼贴图，用于替换原始风景占位图。
+- 将下列内容型图片写入 PPT：
+  - 数据集概况页：病害拼贴图、官方类别分布图
+  - 重复图与泄漏页：重复图统计图
+  - Optuna 页：调参结果图
+  - 训练过程页：训练曲线图组
+  - 结果分析页：模型对比图、Official vs Clean 对比图、稳定性图
+  - 可解释性页：混淆矩阵、错误样本图、Grad-CAM 图
+  - 结论/展望/Q&A/结束页：病害拼贴图或结果图
+- 输出新文件：
+  - `E:\pycharm\Python3_9\DeepLearning\docs\水稻叶病害智能识别：迁移学习与超参数调优实验_本地图片版.pptx`
+
+### 影响面
+- 包含项：PPT 图片层更新、本地素材拼贴、实验图表嵌入、修改后 PPT 导出与预览校验。
+- 不包含项：不修改原始 PPT 文案内容、不新增第三方依赖、不调整实验结果数值、不修改数据或训练代码。
+- 关键点：原始文件 `docs/水稻叶病害智能识别：迁移学习与超参数调优实验.pptx` 保留不动，新的图片版以新文件名输出。
+
+### 风险与回滚
+- 风险点：部分图表因原始图片槽位比例较极端，只能以覆盖方式适配，个别页面图表可读性会受版式限制。
+- 缓解措施：已对封面、数据页、结果页、可解释性页、结论页等关键页面逐页渲染预览核对，优先保证“图文相关”和“不遮挡文字”。
+- 回退方式：若后续希望继续微调，可继续基于原始文件 `docs/水稻叶病害智能识别：迁移学习与超参数调优实验.pptx` 重导，不影响原件。
+
+### 验证
+- 已确认读取原始 PPT 成功，实际页数为 `28` 页。
+- 已成功导出新文件：`docs/水稻叶病害智能识别：迁移学习与超参数调优实验_本地图片版.pptx`
+- 已渲染并检查关键预览页：
+  - 封面、目录、背景介绍
+  - 数据集概况、重复图与数据泄漏
+  - Optuna 调参、训练过程
+  - 六模型主结果、Official vs Clean 差异
+  - 混淆矩阵与错误样本、Grad-CAM
+  - 结论、改进方向、Q&A、结束页
+- 验证结果：页面原有文字内容保持不变，新增图片未覆盖正文，PPT 可正常导出并生成预览。
+
+### 关联信息
+- 原始 PPT：`E:\pycharm\Python3_9\DeepLearning\docs\水稻叶病害智能识别：迁移学习与超参数调优实验.pptx`
+- 输出 PPT：`E:\pycharm\Python3_9\DeepLearning\docs\水稻叶病害智能识别：迁移学习与超参数调优实验_本地图片版.pptx`
+- 中间检查目录：`E:\pycharm\Python3_9\DeepLearning\tmp\slides\ppt_image_insert`
+
+## 2026-04-26 10:10 (+08:00 Asia/Shanghai) - 清理高确信临时与半成品产物
+
+### 变更摘要
+根据用户确认的清理范围，准备删除项目中的临时目录、Python/Jupyter 自动缓存、不完整的 Optuna 剪枝 trial 输出，以及 smoke 冒烟测试输出，以减少项目目录冗余并降低后续查找正式实验结果时的干扰。
+
+### 问题说明
+- 当前项目中存在多类非正式交付产物：`tmp/` 下的 PPT/Word 解包、预览和中间素材，`__pycache__/` 与 Jupyter 自动缓存，以及 `outputs/` 下的 smoke 测试和被剪枝调参 trial。
+- 这些文件不是最终实验报告、最终图表或正式模型结果的一部分，继续保留会增加目录体积，并容易与正式实验输出混淆。
+- 本次清理由用户明确指定执行，触发条件为“最建议删除（临时/半成品，高确信）全部删除”。
+
+### 策略方向
+- 仅删除上一轮盘点中高确信的临时/半成品目录，不扩大到重复文档、旧版 PPT、完整调参 trial、数据压缩包或正式模型结果。
+- 删除前先解析并确认目标路径均位于项目根目录 `E:\pycharm\Python3_9\DeepLearning` 内，避免误删项目外文件。
+- 保留 `final_assets`、正式 `outputs/runs`、正式 `outputs/evaluations`、`Rice Leaf Disease Images`、`docs`、源码、配置和 Git 目录。
+
+### 具体改动
+- 待删除临时目录与缓存：`tmp/`、`__pycache__/`、`src/rice_leaf_disease/__pycache__/`、`.ipynb_checkpoints/`、`.virtual_documents/`。
+- 待删除不完整调参 trial：`outputs/runs/official_efficientnet_search_trial_007` 至 `official_efficientnet_search_trial_011`。
+- 待删除 smoke 测试输出：`outputs/runs/smoke_official_efficientnet_b0`、`outputs/runs/smoke_official_efficientnet_b0_trial_000`、`outputs/evaluations/smoke_official_efficientnet_b0`、`outputs/tuning/smoke_official_efficientnet_b0`。
+- 不包含项：不删除 `official_efficientnet_search_trial_000` 至 `006`、不删除 `official_efficientnet_tuned`、`clean_efficientnet_tuned`、ResNet/CustomCNN 正式 run、不删除最终报告和 PPT。
+
+### 影响面
+- 预计释放约 191.6 MB 的临时与半成品文件空间。
+- 可能影响后续复查 smoke 冒烟测试或被剪枝 trial 的原始 checkpoint；不影响正式实验图表、正式模型、最终评估表和数据集。
+
+### 风险与回滚
+- 风险点：删除操作不可直接从项目内恢复；若后续需要复查 smoke 测试或剪枝 trial，需要重新运行对应实验。
+- 缓解措施：删除范围仅限已确认的临时/半成品路径，并在删除前进行项目根目录边界校验。
+- 回退方式：如需要恢复，只能从外部备份、Git 以外的文件备份，或重新运行对应脚本生成。
+
+### 验证
+- 待验证：删除后使用 `Test-Path` 检查上述目标路径均不存在。
+- 待验证：使用 `Get-ChildItem outputs/runs` 确认正式 run 仍保留。
+- 待验证：使用 `git status --short` 查看工作区状态，确认无非预期源码或配置变更。
+
+### 关联信息
+- 清理范围来源：用户确认的“最建议删除（临时/半成品，高确信）”列表。
+- 项目根目录：`E:\pycharm\Python3_9\DeepLearning`
+
+### 补充验证结果（2026-04-26 10:10 +08:00）
+- 删除执行结果：上述 14 个目标路径已完成删除，实际释放空间约 191.61 MB。
+- `Test-Path` 验证：所有删除目标均返回 `False`，未发现残留目录。
+- 正式结果保留验证：`outputs/runs` 中仍保留 `official_efficientnet_tuned`、`clean_efficientnet_tuned`、`official_resnet18`、`clean_resnet18`、`official_customcnn`、`clean_customcnn`、`official_efficientnet_search_trial_000` 至 `006` 等目录；`outputs/evaluations` 中仍保留正式评估目录。
+- 目录体积复核：`outputs/` 由清理前约 807.47 MB 降至约 659.47 MB；项目中 `final_assets/`、`docs/`、`Rice Leaf Disease Images/`、源码与配置未被删除。
+- `git status --short` 复核：当前可见变更包含本次追加的 `progress.md`，以及清理前已存在的 notebook 与 docs 未跟踪/修改项；未出现新的源码或配置文件删除。
+
+## 2026-04-26 10:15 (+08:00 Asia/Shanghai) - 将 docs 目录排除出 Git 提交范围
+
+### 变更摘要
+根据用户要求，将项目中的 `docs/` 文档目录加入 `.gitignore`，并准备把已经被 Git 跟踪的 docs 文档从索引中移除，使后续仓库提交不再包含该目录内容。
+
+### 问题说明
+- 用户要求“doc 文件夹加入 gitignore 不向仓库提交”。当前项目中实际存在的文档目录为 `docs/`。
+- 仅修改 `.gitignore` 只能阻止未跟踪的新文件进入 Git；经检查，`docs/defense.md`、`docs/ppt_outline.md`、`docs/qa_explanations.md`、`docs/report.md` 已被 Git 跟踪，仍会继续出现在提交中。
+- 因此本次需要同时处理忽略规则与 Git 索引状态。
+
+### 策略方向
+- 在 `.gitignore` 中新增 `docs/`，用于忽略整个文档目录下的新增或未跟踪文件。
+- 使用 `git rm --cached -r docs` 仅从 Git 索引移除已跟踪 docs 文件，不删除本地文件。
+- 不修改 docs 目录内任何文档内容，不删除本地文档文件。
+
+### 具体改动
+- 待更新：`.gitignore` 新增 `docs/` 规则。
+- 待执行：将已跟踪的 `docs/` 文件从 Git 索引中取消跟踪。
+- 不包含项：不删除 `docs/` 目录、不删除报告/PPT/Markdown 文件、不修改文档正文、不提交 Git commit。
+
+### 影响面
+- 后续普通提交不会再包含 `docs/` 下的新文档或修改。
+- 已从索引移除的 docs 文件在下一次提交中会表现为仓库删除，但本地文件仍保留。
+
+### 风险与回滚
+- 风险点：如果之后希望仓库继续保留部分 docs 文件，需要重新调整忽略规则并重新 `git add` 对应文件。
+- 缓解措施：只取消 Git 跟踪，不删除本地文件，保证当前工作资料仍在磁盘上。
+- 回退方式：删除 `.gitignore` 中的 `docs/` 规则，然后对需要保留的文档重新执行 `git add docs/...`。
+
+### 验证
+- 待验证：`.gitignore` 包含 `docs/`。
+- 待验证：`git status --short` 中 docs 已跟踪文件显示为删除暂存状态或不再作为未跟踪内容出现。
+- 待验证：本地 `docs/` 目录仍存在。
+
+### 关联信息
+- 项目文档目录：`E:\pycharm\Python3_9\DeepLearning\docs`
+- Git 忽略文件：`E:\pycharm\Python3_9\DeepLearning\.gitignore`
+
+### 补充验证结果（2026-04-26 10:16 +08:00）
+- `.gitignore` 已新增 `docs/` 规则，用于忽略项目文档目录。
+- 已执行 `git rm --cached -r docs`，从 Git 索引中移除原先跟踪的 `docs/defense.md`、`docs/ppt_outline.md`、`docs/qa_explanations.md`、`docs/report.md`。
+- 本地文件验证：`docs/` 目录仍存在，目录内报告、PPT、Markdown 文档均保留在磁盘上。
+- `git ls-files docs` 验证：当前无 docs 路径仍处于 Git 跟踪列表中。
+- `git status --short` 验证：`.gitignore` 与 `progress.md` 已修改；docs 中原已跟踪文件显示为从仓库索引删除，这是取消跟踪的预期状态；清理前已有的 notebook 修改仍存在。
+
+## 2026-04-26 10:20 (+08:00 Asia/Shanghai) - 准备将当前项目变更提交并推送到 GitHub
+
+### 变更摘要
+根据用户要求，准备将当前工作区中可提交的项目变更统一暂存、提交，并推送到 GitHub 远程仓库 `github/main`。
+
+### 问题说明
+- 当前工作区存在 `.gitignore`、`progress.md`、docs 取消跟踪记录，以及 `rice_leaf_disease_defense.ipynb` 的修改。
+- 用户要求“现在将所有文件向github仓库推送一次”，因此需要先形成一次 Git 提交，再推送到 GitHub 远程分支。
+- 因 `docs/` 已按上一项任务加入 `.gitignore` 并取消跟踪，本次不会把本地 docs 文件内容重新加入仓库。
+
+### 策略方向
+- 使用 `git add -A` 暂存当前所有可提交变更，包括文件修改、取消跟踪记录和 notebook 修改。
+- 创建一次提交，提交信息概括为清理临时产物、忽略 docs 目录并同步 notebook 更新。
+- 推送当前 `main` 分支到 GitHub 远程 `github/main`。
+
+### 具体改动
+- 待提交：`.gitignore` 新增 `docs/` 忽略规则。
+- 待提交：`docs/` 中原已跟踪文档从 Git 索引移除，本地仍保留。
+- 待提交：`progress.md` 追加清理、忽略 docs、推送准备记录。
+- 待提交：`rice_leaf_disease_defense.ipynb` 当前已有修改。
+- 不包含项：不会强制添加已被 `.gitignore` 忽略的 `outputs/`、`docs/` 新文件、数据集目录、临时缓存目录。
+
+### 影响面
+- GitHub 仓库将收到一次新的提交，反映当前仓库可跟踪文件的最新状态。
+- 本地 docs 文件仍存在，但仓库中原有 docs 跟踪文件会在该提交中表现为删除。
+
+### 风险与回滚
+- 风险点：notebook 当前修改会一并提交；docs 原跟踪文件会从远程仓库移除。
+- 缓解措施：这是用户要求“所有文件推送”的执行结果，且 docs 取消跟踪符合上一项明确要求。
+- 回退方式：如需撤销远程提交，可后续使用 Git revert 生成反向提交；如需重新跟踪 docs，可移除 `.gitignore` 中 `docs/` 并重新 `git add docs/...`。
+
+### 验证
+- 待验证：`git status --short` 确认提交前变更已暂存。
+- 待验证：`git commit` 成功生成提交。
+- 待验证：`git push github main` 成功推送到 GitHub。
+
+### 关联信息
+- 当前分支：`main`
+- GitHub 远程：`github https://github.com/moyan726/Oryza-Sentinel.git`
